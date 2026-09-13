@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Background -->
+  <rect width="64" height="64" rx="14" fill="#FFFFFF"/>
+
+  <!-- Document -->
+  <path
+    d="M17 7
+       C14.8 7 13 8.8 13 11
+       V53
+       C13 55.2 14.8 57 17 57
+       H43
+       C45.2 57 47 55.2 47 53
+       V19
+       L35 7
+       H17Z"
+    fill="#172B4D"
+  />
+
+  <!-- Folded corner -->
+  <path
+    d="M35 7V17
+       C35 18.1 35.9 19 37 19
+       H47L35 7Z"
+    fill="#CBD5E1"
+  />
+
+  <!-- Rupee symbol -->
+  <path
+    d="M21 19H32
+       M21 23H32
+       M25 19
+       C29 19 31 21 31 24
+       C31 27 28.5 29 25 29
+       H22
+       L31 39"
+    fill="none"
+    stroke="#FFFFFF"
+    stroke-width="2.8"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+
+  <!-- Expense lines -->
+  <rect x="21" y="34" width="15" height="2.5" rx="1.25" fill="#94A3B8"/>
+  <rect x="21" y="39" width="11" height="2.5" rx="1.25" fill="#94A3B8"/>
+
+  <!-- Approval circle -->
+  <circle cx="44" cy="45" r="11" fill="#16A34A"/>
+
+  <!-- Check mark -->
+  <path
+    d="M38.5 45
+       L42 48.5
+       L49.5 40.5"
+    fill="none"
+    stroke="#FFFFFF"
+    stroke-width="3"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+</svg>

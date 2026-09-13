@@ -1,0 +1,7 @@
+target/
+uploads/*
+!uploads/.gitkeep
+.idea/
+*.iml
+.env
+*.log
