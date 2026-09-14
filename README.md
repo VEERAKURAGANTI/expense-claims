@@ -35,56 +35,53 @@ A key design principle is that important business rules are enforced by the back
 
 Frontend
 
-React
+* React
 
-Vite
+* Vite
 
-JavaScript
+* JavaScript
 
-Axios
+* Axios
 
-React Router
+* React Router
 
-CSS
-
+* CSS
 
 Backend
 
-Java 17
+* Java 17
 
-Spring Boot 3.3.4
+* Spring Boot 3.3.4
 
-Spring Security
+* Spring Security
 
-JWT Authentication
+* JWT Authentication
 
-Spring Data JPA
+* Spring Data JPA
 
-Hibernate
+* Hibernate
 
-Maven
+* Maven
 
-REST APIs
-
+* REST APIs
 
 Database
 
-PostgreSQL
+* PostgreSQL
 
 Testing
 
-JUnit
+* JUnit
 
-Mockito
+* Mockito
 
-H2 in-memory database
-
+* H2 in-memory database
 
 Deployment
 
-GitHub
+* GitHub
 
-Render
+* Render
 
 3. High-Level Architecture
 
