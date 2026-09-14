@@ -239,7 +239,7 @@ export default function ClaimReviewPage() {
           />
 
           <label htmlFor="description">Note (optional)</label>
-
+          
           <input
             id="description"
             type="text"
