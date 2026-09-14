@@ -6,18 +6,23 @@ import { authApi, apiErrorMessage } from '../api/endpoints';
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [demoUsers, setDemoUsers] = useState([]);
+
   const { login } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    authApi.demoUsers().then((res) => setDemoUsers(res.data)).catch(() => { });
+    authApi.demoUsers()
+      .then((res) => setDemoUsers(res.data))
+      .catch(() => {});
   }, []);
 
   async function handleSubmit(e) {
     e.preventDefault();
     setError('');
+
     try {
       await login(email, password);
       navigate('/');
@@ -29,14 +34,27 @@ export default function LoginPage() {
   return (
     <div className="card" style={{ maxWidth: 420, margin: '40px auto 0' }}>
       <h1>Log in</h1>
-      <p className="lede">Staff, managers and finance all sign in here.</p>
+
+      <p className="lede">
+        Staff, managers and finance all sign in here.
+      </p>
 
       {error && <div className="alert error">{error}</div>}
 
       <form className="stacked" onSubmit={handleSubmit}>
         <label htmlFor="email">Email</label>
-        <input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required autoFocus />
+
+        <input
+          id="email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          autoFocus
+        />
+
         <label htmlFor="password">Password</label>
+
         <div className="password-wrapper">
           <input
             id="password"
@@ -55,14 +73,19 @@ export default function LoginPage() {
             {showPassword ? 'Hide' : 'Show'}
           </button>
         </div>
+
         <div className="actions-row">
-          <button className="btn" type="submit">Log in</button>
+          <button className="btn" type="submit">
+            Log in
+          </button>
         </div>
       </form>
 
       {demoUsers.length > 0 && (
         <div className="demo-users">
-          Demo data &mdash; every account uses the password <code>password123</code>.
+          Demo data &mdash; every account uses the password:{' '}
+          <code>password123</code>
+
           <table>
             <tbody>
               {demoUsers.map((u) => (
