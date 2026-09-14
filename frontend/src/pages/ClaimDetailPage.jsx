@@ -16,16 +16,28 @@ export default function ClaimDetailPage() {
   const [loadingAttachment, setLoadingAttachment] = useState(false);
 
   useEffect(() => {
+    let cancelled = false;
+
     claimsApi.detail(id)
       .then((res) => {
+        if (cancelled) return;
+
         setClaim(res.data.claim);
         setDup(res.data.duplicate);
         setAudit(res.data.audit);
       })
-      .catch((err) => setError(apiErrorMessage(err)));
+      .catch((err) => {
+        if (!cancelled) {
+          setError(apiErrorMessage(err));
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
   }, [id]);
 
-  // Clean up the temporary blob URL when leaving the page
+  // Clean up the temporary browser URL when leaving the page.
   useEffect(() => {
     return () => {
       if (attachmentUrl) {
@@ -34,22 +46,32 @@ export default function ClaimDetailPage() {
     };
   }, [attachmentUrl]);
 
-  const handleViewAttachment = async () => {
-    try {
-      setError('');
-      setLoadingAttachment(true);
+  async function handleViewAttachment() {
+    setError('');
+    setLoadingAttachment(true);
 
+    try {
+      // IMPORTANT:
+      // This request goes through Axios, so client.js automatically
+      // adds the JWT Authorization header.
       const response = await claimsApi.attachment(id);
 
       const url = URL.createObjectURL(response.data);
 
-      setAttachmentUrl(url);
+      // Remove previous object URL if one exists.
+      setAttachmentUrl((previousUrl) => {
+        if (previousUrl) {
+          URL.revokeObjectURL(previousUrl);
+        }
+
+        return url;
+      });
     } catch (err) {
       setError(apiErrorMessage(err));
     } finally {
       setLoadingAttachment(false);
     }
-  };
+  }
 
   if (error && !claim) {
     return <div className="alert error">{error}</div>;
@@ -68,7 +90,9 @@ export default function ClaimDetailPage() {
         </span>
       </h1>
 
-      <p className="lede">Filed by {claim.ownerName}</p>
+      <p className="lede">
+        Filed by {claim.ownerName}
+      </p>
 
       {error && (
         <div className="alert error">
@@ -86,7 +110,9 @@ export default function ClaimDetailPage() {
 
             <tr>
               <th>Amount</th>
-              <td className="amount">{inr(claim.amount)}</td>
+              <td className="amount">
+                {inr(claim.amount)}
+              </td>
             </tr>
 
             <tr>
@@ -116,7 +142,9 @@ export default function ClaimDetailPage() {
                   >
                     {loadingAttachment
                       ? 'Loading receipt...'
-                      : 'View attached receipt'}
+                      : attachmentUrl
+                        ? 'Reload receipt'
+                        : 'View attached receipt'}
                   </button>
 
                   {attachmentUrl && (
@@ -125,12 +153,15 @@ export default function ClaimDetailPage() {
                         src={attachmentUrl}
                         alt={`Receipt for claim #${claim.id}`}
                         style={{
+                          display: 'block',
                           maxWidth: '100%',
                           maxHeight: '600px',
+                          width: 'auto',
+                          height: 'auto',
                           objectFit: 'contain',
-                          border: '1px solid #ddd',
                           borderRadius: '8px',
-                          display: 'block',
+                          border: '1px solid #ddd',
+                          background: '#fff',
                         }}
                       />
                     </div>
@@ -186,10 +217,21 @@ export default function ClaimDetailPage() {
         <tbody>
           {audit.map((a, i) => (
             <tr key={i}>
-              <td>{new Date(a.createdAt).toLocaleString()}</td>
-              <td>{a.actorName || 'System'}</td>
-              <td>{a.action.replace('_', ' ')}</td>
-              <td>{a.note || '—'}</td>
+              <td>
+                {new Date(a.createdAt).toLocaleString()}
+              </td>
+
+              <td>
+                {a.actorName || 'System'}
+              </td>
+
+              <td>
+                {a.action.replace('_', ' ')}
+              </td>
+
+              <td>
+                {a.note || '—'}
+              </td>
             </tr>
           ))}
         </tbody>
