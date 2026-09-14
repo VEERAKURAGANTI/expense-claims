@@ -212,7 +212,12 @@ public class ClaimService {
         if (claim.getReceiptPath() == null) {
             throw new ApiException(HttpStatus.NOT_FOUND, "No photo attached to this claim.");
         }
-        return Path.of(uploadsDir).resolve(claim.getReceiptPath());
+        Path path = Path.of(uploadsDir).resolve(claim.getReceiptPath());
+        if (!Files.exists(path) || !Files.isReadable(path)) {
+            throw new ApiException(HttpStatus.NOT_FOUND,
+                    "The receipt file couldn't be found on the server. It may have been lost in a redeploy.");
+        }
+        return path;
     }
 
     // ---- helpers ------------------------------------------------------------

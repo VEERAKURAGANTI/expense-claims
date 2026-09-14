@@ -9,11 +9,14 @@ import com.bluepetal.expenseclaims.service.ClaimService;
 import jakarta.validation.Valid;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Map;
 
 @RestController
@@ -47,9 +50,18 @@ public class ClaimController {
     public ResponseEntity<FileSystemResource> attachment(@PathVariable Long id, Authentication authentication) {
         Claim claim = claimService.loadViewable(id, currentUser(authentication));
         var path = claimService.attachmentPath(claim);
+        FileSystemResource resource = new FileSystemResource(path);
+        MediaType contentType;
+        try {
+            String probed = Files.probeContentType(path);
+            contentType = probed != null ? MediaType.parseMediaType(probed) : MediaType.APPLICATION_OCTET_STREAM;
+        } catch (IOException e) {
+            contentType = MediaType.APPLICATION_OCTET_STREAM;
+        }
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "inline")
-                .body(new FileSystemResource(path));
+                .contentType(contentType)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + path.getFileName() + "\"")
+                .body(resource);
     }
 
     @PostMapping(value = "/draft", consumes = "multipart/form-data")

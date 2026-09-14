@@ -55,9 +55,7 @@ public class DataSeeder implements CommandLineRunner {
         // below claiming it was "routed to finance."
         deepak.setApprover(ramesh); users.save(deepak);
         User ananya = save(new User("Ananya Krishnan", "ananya.krishnan@bluepetal.in", hash, Role.MANAGER, bd(20000)));
-        ananya.setApprover(ramesh);
-        users.save(ananya);
-        
+        ananya.setApprover(deepak); users.save(ananya);
 
         User kavya = save(new User("Kavya Sundaram", "kavya.sundaram@bluepetal.in", hash, Role.STAFF, bd(12000)));
         kavya.setApprover(ananya); users.save(kavya);
