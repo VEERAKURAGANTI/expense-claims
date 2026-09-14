@@ -2,10 +2,10 @@ FROM eclipse-temurin:17-jdk
 
 WORKDIR /app
 
-COPY backend/pom.xml ./pom.xml
-COPY backend/mvnw ./mvnw
-COPY backend/.mvn ./.mvn
-COPY backend/src ./src
+COPY pom.xml .
+COPY mvnw .
+COPY .mvn .mvn
+COPY src ./src
 
 RUN chmod +x mvnw && ./mvnw clean package -DskipTests
 
