@@ -12,7 +12,7 @@ export default function LoginPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    authApi.demoUsers().then((res) => setDemoUsers(res.data)).catch(() => {});
+    authApi.demoUsers().then((res) => setDemoUsers(res.data)).catch(() => { });
   }, []);
 
   async function handleSubmit(e) {
@@ -37,7 +37,24 @@ export default function LoginPage() {
         <label htmlFor="email">Email</label>
         <input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required autoFocus />
         <label htmlFor="password">Password</label>
-        <input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+        <div className="password-wrapper">
+          <input
+            id="password"
+            type={showPassword ? 'text' : 'password'}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+
+          <button
+            type="button"
+            className="password-toggle"
+            onClick={() => setShowPassword((prev) => !prev)}
+            aria-label={showPassword ? 'Hide password' : 'Show password'}
+          >
+            {showPassword ? 'Hide' : 'Show'}
+          </button>
+        </div>
         <div className="actions-row">
           <button className="btn" type="submit">Log in</button>
         </div>
