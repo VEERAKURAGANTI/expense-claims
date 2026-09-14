@@ -257,13 +257,21 @@ export default function ClaimReviewPage() {
 
         {claim.hasAttachment && (
           <p className="hint" style={{ marginTop: 10 }}>
-            <a
-              href={claimsApi.attachmentUrl(id)}
-              target="_blank"
-              rel="noreferrer"
+            <button
+              type="button"
+              className="btn secondary"
+              onClick={async () => {
+                try {
+                  const response = await claimsApi.attachment(id);
+                  const url = window.URL.createObjectURL(response.data);
+                  window.open(url, '_blank', 'noopener,noreferrer');
+                } catch (err) {
+                  setError(apiErrorMessage(err));
+                }
+              }}
             >
               View attached photo
-            </a>
+            </button>
           </p>
         )}
       </div>
