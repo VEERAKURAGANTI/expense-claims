@@ -256,15 +256,16 @@ export default function ClaimReviewPage() {
         )}
 
         {claim.hasAttachment && (
-          <p className="hint" style={{ marginTop: 10 }}>
+          <div style={{ marginTop: 10 }}>
             <button
               type="button"
               className="btn secondary"
               onClick={async () => {
                 try {
                   const response = await claimsApi.attachment(id);
-                  const url = window.URL.createObjectURL(response.data);
-                  window.open(url, '_blank', 'noopener,noreferrer');
+
+                  const url = URL.createObjectURL(response.data);
+                  setAttachmentUrl(url);
                 } catch (err) {
                   setError(apiErrorMessage(err));
                 }
@@ -272,7 +273,22 @@ export default function ClaimReviewPage() {
             >
               View attached photo
             </button>
-          </p>
+
+            {attachmentUrl && (
+              <div style={{ marginTop: 15 }}>
+                <img
+                  src={attachmentUrl}
+                  alt="Expense receipt"
+                  style={{
+                    maxWidth: '100%',
+                    maxHeight: '500px',
+                    borderRadius: '8px',
+                    border: '1px solid #ddd',
+                  }}
+                />
+              </div>
+            )}
+          </div>
         )}
       </div>
 
