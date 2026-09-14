@@ -47,6 +47,7 @@ React Router
 
 CSS
 
+
 Backend
 
 Java 17
@@ -65,6 +66,7 @@ Maven
 
 REST APIs
 
+
 Database
 
 PostgreSQL
@@ -76,6 +78,7 @@ JUnit
 Mockito
 
 H2 in-memory database
+
 
 Deployment
 
