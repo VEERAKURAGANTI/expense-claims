@@ -6,11 +6,8 @@ The application implements JWT authentication, role-based access control, approv
 
 Live Application
 
-Frontend:
+Deployed Application:
 https://expense-claims-i42r.onrender.com
-
-Backend API:
-https://expense-claims-backend.onrender.com
 
 Source Code:
 https://github.com/VEERAKURAGANTI/expense-claims
