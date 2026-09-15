@@ -715,7 +715,7 @@ expense-claims/
 
 Live Application
 
-https://expense-claims-i42r.onrender.com/login
+https://expense-claims-i42r.onrender.com
 
 Backend
 
